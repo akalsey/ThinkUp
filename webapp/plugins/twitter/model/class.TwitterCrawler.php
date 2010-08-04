@@ -60,6 +60,9 @@ class TwitterCrawler {
     }
 
     public function fetchSearchResults($term) {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
         $continue_fetching = true;
         $page = 1;
         while ($continue_fetching) {
@@ -97,6 +100,9 @@ class TwitterCrawler {
     }
 
     public function fetchInstanceUserTweets() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
         // Get owner's tweets
         $status_message = "";
         $got_latest_page_of_tweets = false;
@@ -230,6 +236,10 @@ class TwitterCrawler {
     }
 
     private function fetchAndAddTweetRepliedTo($tid, $pd) {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         //fetch tweet from Twitter and add to DB
         $status_message = "";
         $tweet_deets = str_replace("[id]", $tid, $this->api->cURL_source['show_tweet']);
@@ -265,6 +275,10 @@ class TwitterCrawler {
     }
 
     public function fetchInstanceUserMentions() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         $status_message = "";
         // Get owner's mentions
         if ($this->api->available_api_calls_for_crawler > 0) {
@@ -370,6 +384,10 @@ class TwitterCrawler {
      * Retrieve recent retweets and add them to the database
      */
     public function fetchRetweetsOfInstanceUser() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         $status_message = "";
         // Get owner's mentions
         if ($this->api->available && $this->api->available_api_calls_for_crawler > 0) {
@@ -573,6 +591,10 @@ class TwitterCrawler {
     }
 
     public function fetchInstanceUserFollowers() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         $status_message = "";
         // Get owner's followers: Page back only if more than 2% of follows are missing from database
         // See how many are missing from last run
@@ -662,6 +684,10 @@ class TwitterCrawler {
     }
 
     public function fetchInstanceUserFriends() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         $fd = DAOFactory::getDAO('FollowDAO');
         $this->instance->total_friends_in_system = $fd->countTotalFriends($this->instance->network_user_id, 'twitter');
 
@@ -747,6 +773,10 @@ class TwitterCrawler {
     }
 
     public function fetchFriendTweetsAndFriends() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         $fd = DAOFactory::getDAO('FollowDAO');
         $pd = DAOFactory::getDAO('PostDAO');
 
@@ -834,6 +864,10 @@ class TwitterCrawler {
     }
 
     public function fetchStrayRepliedToTweets() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         $pd = DAOFactory::getDAO('PostDAO');
         $strays = $pd->getStrayRepliedToPosts($this->owner_object->user_id, $this->owner_object->network);
         $status_message = count($strays).' stray replied-to tweets to load for user ID '.$this->owner_object->user_id .
@@ -847,6 +881,10 @@ class TwitterCrawler {
     }
 
     public function fetchUnloadedFollowerDetails() {
+        while (!isset($this->owner_object)) {
+            $this->fetchInstanceUserInfo();
+        }
+
         $fd = DAOFactory::getDAO('FollowDAO');
         $strays = $fd->getUnloadedFollowerDetails($this->owner_object->user_id, 'twitter');
         $status_message = count($strays).' unloaded follower details to load.';

@@ -44,7 +44,7 @@ class TwitterPlugin implements CrawlerPlugin, WebappPlugin {
                 $id->updateLastRun($instance->id);
 
                 // No auth req'd
-                $crawler->fetchInstanceUserInfo();
+                //$crawler->fetchInstanceUserInfo();
 
                 // No auth for public Twitter users
                 $crawler->fetchInstanceUserTweets();
