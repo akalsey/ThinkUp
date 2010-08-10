@@ -1,6 +1,7 @@
 <?php
 /**
- * Plugin Configuration Controller - Extends ThinkUpAuthController to add configuration option functionality
+ * Plugin Configuration Controller
+ * Extends ThinkUpAuthController to add plugin configuration option functionality
  *  <code>
  *
  *      $this->addPluginOption(FORM_TEXT_ELEMENT, array('name' => 'email') );

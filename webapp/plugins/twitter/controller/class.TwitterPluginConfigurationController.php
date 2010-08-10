@@ -74,7 +74,7 @@ class TwitterPluginConfigurationController extends PluginConfigurationController
             }
         }
 
-        if(isset($oauth_consumer_key) && isset($oauth_consumer_secret)) {
+        if (isset($oauth_consumer_key) && isset($oauth_consumer_secret)) {
             $to = new TwitterOAuth($oauth_consumer_key, $oauth_consumer_secret);
             /* Request tokens from twitter */
             $tok = $to->getRequestToken();
@@ -92,7 +92,7 @@ class TwitterPluginConfigurationController extends PluginConfigurationController
             }
         } else {
             $this->addErrorMessage(
-                "Please set your Twitter consumer key and secret configuration.");
+                "Missing required settings! Please configure the Twitter plugin below.");
             $oauthorize_link = '';
         }
         $owner_instances = $id->getByOwnerAndNetwork($this->owner, 'twitter');
@@ -110,20 +110,18 @@ class TwitterPluginConfigurationController extends PluginConfigurationController
      * Set plugin option fields for admin/plugin form
      */
     private function addOptionForm() {
-        // set  header
-        $this->addPluginOptionHeader('oauth_consumer_key', 'Twitter Plugin Options');
 
-        $oauth_consumer_key = array('name' => 'oauth_consumer_key', 'label' => 'Consumer Key');
+        $oauth_consumer_key = array('name' => 'oauth_consumer_key', 'label' => 'Consumer key');
         $this->addPluginOption(self::FORM_TEXT_ELEMENT, $oauth_consumer_key);
-        
-        $oauth_consumer_secret = array('name' => 'oauth_consumer_secret', 'label' => 'Consumer Secret');
+
+        $oauth_consumer_secret = array('name' => 'oauth_consumer_secret', 'label' => 'Consumer secret');
         $this->addPluginOption(self::FORM_TEXT_ELEMENT, $oauth_consumer_secret);
-        $archive_linmit_label = 'Archive Limnit <span style="font-size: 10px;">' . 
-            '[ <a href="http://apiwiki.twitter.com/Things-Every-Developer-Should-Know#6Therearepaginationlimits">' .
-            '?</a> ]</span>';
-        $archive_limit = array('name' => 'archive_limit', 
-                               'label' => $archive_linmit_label, 'default_value' => '3200');
+        $archive_limit_label = 'Archive Limit <span style="font-size: 10px;">' .
+            '[<a href="http://apiwiki.twitter.com/Things-Every-Developer-Should-Know#6Therearepaginationlimits">' .
+            '?</a>]</span>';
+        $archive_limit = array('name' => 'archive_limit',
+                               'label' => $archive_limit_label, 'default_value' => '3200');
         $this->addPluginOption(self::FORM_TEXT_ELEMENT, $archive_limit);
-        
+
     }
 }
